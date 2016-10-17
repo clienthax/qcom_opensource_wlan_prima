@@ -9211,6 +9211,10 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
 
             vos_flush_delayed_work(&pAdapter->roc_work);
          }
+#ifdef SAP_AUTH_OFFLOAD
+         if (pHddCtx->cfg_ini->enable_sap_auth_offload)
+             hdd_set_sap_auth_offload(pAdapter, FALSE);
+#endif
          mutex_lock(&pHddCtx->sap_lock);
          if (test_bit(SOFTAP_BSS_STARTED, &pAdapter->event_flags)) 
          {
@@ -12539,6 +12543,13 @@ int hdd_wlan_startup(struct device *dev )
 
 #endif
 
+#ifdef SAP_AUTH_OFFLOAD
+   if (!sme_IsFeatureSupportedByFW(SAP_OFFLOADS))
+   {
+       hddLog(VOS_TRACE_LEVEL_INFO, FL(" SAP AUTH OFFLOAD not supp by FW"));
+       pHddCtx->cfg_ini->enable_sap_auth_offload = 0;
+   }
+#endif
 
    if (vos_is_multicast_logging())
        wlan_logging_set_log_level();
