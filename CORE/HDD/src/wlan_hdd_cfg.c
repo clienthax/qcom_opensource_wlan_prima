@@ -4944,7 +4944,8 @@ static void hdd_set_power_save_config(hdd_context_t *pHddCtx, tSmeConfigParams *
 }
 
 VOS_STATUS hdd_string_to_u8_array(char *str, tANI_U8 *intArray,
-				   tANI_U8 *len, tANI_U8 intArrayMaxLen)
+				   tANI_U8 *len, tANI_U8 intArrayMaxLen,
+				   char *seperator)
 {
    char *s = str;
 
@@ -4961,10 +4962,12 @@ VOS_STATUS hdd_string_to_u8_array(char *str, tANI_U8 *intArray,
       //Any other return value means error. Ignore it.
       if( sscanf(s, "%d", &val ) == 1 )
       {
+         if (val > 255 || val < 0)
+             return VOS_STATUS_E_FAILURE;
          intArray[*len] = (tANI_U8) val;
          *len += 1;
       }
-      s = strpbrk( s, "," );
+      s = strpbrk( s, seperator);
       if( s )
          s++;
    }
@@ -6301,7 +6304,7 @@ VOS_STATUS hdd_set_sme_config( hdd_context_t *pHddCtx )
    hdd_string_to_u8_array( pConfig->neighborScanChanList,
                                         smeConfig->csrConfig.neighborRoamConfig.neighborScanChanList.channelList,
                                         &smeConfig->csrConfig.neighborRoamConfig.neighborScanChanList.numChannels,
-                                        WNI_CFG_VALID_CHANNEL_LIST_LEN );
+                                        WNI_CFG_VALID_CHANNEL_LIST_LEN, "," );
 #endif
 
    smeConfig->csrConfig.addTSWhenACMIsOff = pConfig->AddTSWhenACMIsOff;
