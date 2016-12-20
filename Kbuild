@@ -83,6 +83,8 @@ ifneq ($(CONFIG_PRONTO_WLAN),)
     CONFIG_WLAN_OFFLOAD_PACKETS := y
 
     endif
+#Flag to enable AP Find feature
+CONFIG_WLAN_FEATURE_AP_FIND := y
 
 # Flag to enable feature Software AP Authentication Offload
 SAP_AUTH_OFFLOAD := y
@@ -712,6 +714,10 @@ endif
 # Enable feature SAP Authentication Offload
 ifeq ($(SAP_AUTH_OFFLOAD), y)
 CDEFINES += -DSAP_AUTH_OFFLOAD
+endif
+
+ifeq ($(CONFIG_WLAN_FEATURE_AP_FIND), y)
+CDEFINES += -DWLAN_FEATURE_APFIND
 endif
 
 CDEFINES += -DFEATURE_WLAN_CH_AVOID
