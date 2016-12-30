@@ -8875,7 +8875,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
    if(VOS_STATUS_SUCCESS == status)
    {
       wlan_hdd_set_concurrency_mode(pHddCtx, session_type);
-
       //Initialize the WoWL service
       if(!hdd_init_wowl(pAdapter))
       {
@@ -15464,6 +15463,7 @@ void hdd_initialize_adapter_common(hdd_adapter_t *pAdapter)
         init_completion(&pAdapter->hdd_set_batch_scan_req_var);
         init_completion(&pAdapter->hdd_get_batch_scan_req_var);
 #endif
+        init_completion(&pAdapter->wlan_suspend_comp_var);
 
         return;
 }
