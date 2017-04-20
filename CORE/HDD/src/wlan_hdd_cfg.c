@@ -5152,6 +5152,7 @@ int hdd_string_to_string_array(char *data, uint8_t *datalist,
 {
     uint8_t num = 0;
     char *str = NULL;
+    char *temp_str = NULL;
     char *field;
     uint16_t len = 0;
 
@@ -5165,6 +5166,7 @@ int hdd_string_to_string_array(char *data, uint8_t *datalist,
        return -ENOMEM;
     }
     vos_mem_copy(str, data, strlen((char *)data));
+    temp_str = str;
     /* parse the string */
     while (str && ('\0' != *str) && (num < max_entries)) {
         field = str;
@@ -5188,7 +5190,7 @@ int hdd_string_to_string_array(char *data, uint8_t *datalist,
         num++;
     }
     *num_entries = num;
-    vos_mem_free(str);
+    vos_mem_free(temp_str);
 
     return 0;
 }
