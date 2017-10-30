@@ -244,6 +244,7 @@ typedef struct sLimTimers
      * for a period of time on a particular DFS channel
      */
     TX_TIMER           gLimActiveToPassiveChannelTimer;
+    TX_TIMER           g_lim_ap_ecsa_timer;
 //********************TIMER SECTION ENDS**************************************************
 // ALL THE FIELDS BELOW THIS CAN BE ZEROED OUT in limInitialize
 //****************************************************************************************
