@@ -10246,14 +10246,8 @@ void hdd_dump_concurrency_info(hdd_context_t *pHddCtx)
    if (staChannel > 0 && (apChannel > 0 || p2pChannel > 0)) {
        ccMode = (p2pChannel==staChannel||apChannel==staChannel) ? "SCC" : "MCC";
    }
-#ifdef CONFIG_HUAWEI_WIFI
-   hddLog(VOS_TRACE_LEVEL_INFO, "wlan(%d) " HWMAC_ADDRESS_STR " %s",
-                staChannel, HWMAC_ADDR_ARRAY(staBssid), ccMode);
-
-#else
-   hddLog(VOS_TRACE_LEVEL_INFO, "wlan(%d) " MAC_ADDRESS_STR " %s",
-                staChannel, MAC_ADDR_ARRAY(staBssid), ccMode);
-#endif
+   hddLog(VOS_TRACE_LEVEL_ERROR, "wlan(%d) " MAC_ADDRESS_STR " %s",
+	  staChannel, MAC_ADDR_ARRAY(staBssid), ccMode);
    if (p2pChannel > 0) {
 #ifdef CONFIG_HUAWEI_WIFI
        hddLog(VOS_TRACE_LEVEL_ERROR, "p2p-%s(%d) " HWMAC_ADDRESS_STR,
