@@ -67,7 +67,11 @@ else
 ifneq ($(TARGET_SUPPORTS_WEARABLES),true)
     WLAN_BLD_DIR := vendor/qcom/opensource/wlan
 else
+ifneq ($(ANDROID_BUILD_TOP),)
+    WLAN_BLD_DIR := $(ANDROID_BUILD_TOP)/device/qcom/msm8909w/opensource/wlan
+else
     WLAN_BLD_DIR := device/qcom/msm8909w/opensource/wlan
+endif
 endif
 endif
 
