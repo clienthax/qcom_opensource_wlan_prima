@@ -578,5 +578,5 @@ void vos_get_recovery_reason(enum vos_hang_reason *reason);
  *
  * Return: None
  */
-+void vos_reset_recovery_reason(void);
+void vos_reset_recovery_reason(void);
 #endif // if !defined __VOS_NVITEM_H
