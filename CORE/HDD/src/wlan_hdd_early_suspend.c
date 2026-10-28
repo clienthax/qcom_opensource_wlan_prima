@@ -91,8 +91,7 @@
 #include "wlan_hdd_packet_filtering.h"
 
 #if defined (WLAN_FEATURE_PACKET_FILTERING) && defined (WLAN_FEATURE_PACKET_FILTERING_MDNS)
-extern int wlan_hdd_set_filter(hdd_context_t *pHddCtx, tpPacketFilterCfg pRequest,
-                           v_U8_t sessionId);
+extern int wlan_hdd_set_filter(hdd_adapter_t *pAdapter, tpPacketFilterCfg pRequest);
 #endif
 #define HDD_SSR_BRING_UP_TIME 180000
 #define NS_DEFAULT_SLOT_INDEX 4
@@ -1618,7 +1617,7 @@ static void hdd_conf_resume_ind(hdd_adapter_t *pAdapter)
 }
 
 #if defined (WLAN_FEATURE_PACKET_FILTERING) && defined (WLAN_FEATURE_PACKET_FILTERING_MDNS)
-int wlan_hdd_set_mDNS_filter(hdd_context_t *pHddCtx, tANI_U8 isSet, tANI_U8 sessionId)
+int wlan_hdd_set_mDNS_filter(hdd_adapter_t *pAdapter, tANI_U8 isSet)
 {
     tPacketFilterCfg packetRequest = {0};
 
@@ -1643,8 +1642,7 @@ int wlan_hdd_set_mDNS_filter(hdd_context_t *pHddCtx, tANI_U8 isSet, tANI_U8 sess
     packetRequest.paramsData[1].compareData[2] = 0;
     packetRequest.paramsData[1].compareData[3] = 251;
 
-    //wlan_hdd_set_filter(pHddCtx, &packetRequest, pAdapter->sessionId);
-    return wlan_hdd_set_filter(pHddCtx, &packetRequest, sessionId);
+    return wlan_hdd_set_filter(pAdapter, &packetRequest);
 }
 #endif
 
@@ -1709,7 +1707,7 @@ void hdd_suspend_wlan(void)
        if(WLAN_HDD_INFRA_STATION == pAdapter->device_mode)
        {
            hddLog(VOS_TRACE_LEVEL_INFO,"%s: SME requesting fullpower ok,and set mDNS filter", __func__);
-           wlan_hdd_set_mDNS_filter(WLAN_HDD_GET_CTX(pAdapterNode->pAdapter), true, pAdapter->sessionId);
+           wlan_hdd_set_mDNS_filter(pAdapter, true);
        }
 #endif
 
@@ -2100,7 +2098,7 @@ void hdd_resume_wlan(void)
        if(WLAN_HDD_INFRA_STATION == pAdapter->device_mode)
        {
             hddLog(VOS_TRACE_LEVEL_INFO,"%s:SME clear mDNS filter", __func__);
-            wlan_hdd_set_mDNS_filter(WLAN_HDD_GET_CTX(pAdapter), false, pAdapter->sessionId);
+            wlan_hdd_set_mDNS_filter(pAdapter, false);
        }
 #endif
 #ifdef SUPPORT_EARLY_SUSPEND_STANDBY_DEEPSLEEP   
